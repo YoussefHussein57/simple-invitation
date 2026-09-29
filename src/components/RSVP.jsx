@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Check } from "lucide-react";
 import { wedding } from "../data/wedding";
+import { BotanicalCorner } from "./BotanicalCorner";
 
 const STORAGE_KEY = "sealed-with-love-rsvp";
 
@@ -54,8 +55,14 @@ export function RSVP() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-15% 0px -15% 0px" }}
           transition={{ duration: 0.8, ease: "easeOut" }}
-          className="border-2 border-gold-dim/40 bg-paper px-7 py-10 shadow-[0_14px_35px_-15px_rgba(43,36,28,0.3)] sm:px-10 sm:py-12"
+          className="relative border-2 border-gold-dim/40 bg-paper px-7 py-10 shadow-[0_14px_35px_-15px_rgba(43,36,28,0.3)] sm:px-10 sm:py-12"
         >
+          <BotanicalCorner className="pointer-events-none absolute -left-3 -top-3 h-24 w-24 opacity-90 sm:h-28 sm:w-28" />
+          <BotanicalCorner
+            flip
+            className="pointer-events-none absolute -bottom-3 -right-3 h-24 w-24 opacity-90 sm:h-28 sm:w-28"
+          />
+
           <AnimatePresence mode="wait">
             {response ? (
               <Confirmation key="confirmation" response={response} />

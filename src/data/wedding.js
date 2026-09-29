@@ -31,6 +31,17 @@ export const wedding = {
   brideName: "Aya",
   date: "31 / 10",
   dateFull: `31 / 10 / ${WEDDING_YEAR}`,
+  // Derived from WEDDING_DATE, not hardcoded, so changing the year
+  // above keeps these correct automatically.
+  dayLabel: WEDDING_DATE.toLocaleDateString("en-US", { weekday: "long" }),
+  dayMonthLabel: WEDDING_DATE.toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+  }),
+  timeLabel: WEDDING_DATE.toLocaleTimeString("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+  }),
   venue: "دار ضباط المدفعية",
   venueTransliteration: "Artillery Officers House",
   mapsUrl: GOOGLE_MAPS_URL,
@@ -38,11 +49,9 @@ export const wedding = {
 };
 
 // ------------------------------------------------------------
-// KEEPSAKE ART — the illustrated proposal/acceptance portraits,
-// shared with Concept3. Presented here as a little keepsake
-// tucked inside the letter, not a photo card. Swap the files in
-// /public/photos to update.
+// KEEPSAKE ART — a single illustrated couple portrait, presented as
+// a little keepsake tucked into the letter, not a photo card. Swap
+// the file in /public/photos to update.
 // ------------------------------------------------------------
-export const keepsakeGroomImage = "/photos/omar-proposal.png";
-export const keepsakeBrideImage = "/photos/aya-accept.png";
-export const keepsakeLabel = "A KEEPSAKE FROM THE DAY HE ASKED";
+export const coupleImage = "/photos/omar-aya-couple.png";
+export const keepsakeLabel = "SOON, FOREVER BEGINS";

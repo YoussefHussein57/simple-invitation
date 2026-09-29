@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { MapPin } from "lucide-react";
 import { wedding } from "../data/wedding";
+import { BotanicalCorner } from "./BotanicalCorner";
 
 /**
  * Scene 5 — styled as a postcard. A small line-art pin-and-roads
@@ -19,8 +20,14 @@ export function Location() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-15% 0px -15% 0px" }}
         transition={{ duration: 0.8, ease: "easeOut" }}
-        className="mx-auto flex w-full max-w-md flex-col items-center gap-8 border border-gold-dim/40 bg-paper px-8 py-12 text-center shadow-[0_14px_35px_-15px_rgba(43,36,28,0.3)] md:max-w-lg lg:max-w-xl"
+        className="relative mx-auto flex w-full max-w-md flex-col items-center gap-8 border border-gold-dim/40 bg-paper px-8 py-12 text-center shadow-[0_14px_35px_-15px_rgba(43,36,28,0.3)] md:max-w-lg lg:max-w-xl"
       >
+        <BotanicalCorner className="pointer-events-none absolute -left-3 -top-3 h-24 w-24 opacity-90 sm:h-28 sm:w-28" />
+        <BotanicalCorner
+          flip
+          className="pointer-events-none absolute -bottom-3 -right-3 h-24 w-24 opacity-90 sm:h-28 sm:w-28"
+        />
+
         <span className="font-tech text-xs uppercase tracking-[0.4em] text-gold-dim">
           Destination
         </span>

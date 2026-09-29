@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ChevronDown, Mail } from "lucide-react";
 import { useReducedMotion } from "../hooks/useReducedMotion";
 import { wedding } from "../data/wedding";
+import { BotanicalSprig } from "./BotanicalCorner";
 
 const STAGE = { CLOSED: "closed", OPENING: "opening", REVEALED: "revealed" };
 
@@ -74,7 +75,11 @@ export function EnvelopeIntro() {
           {/* envelope body */}
           <motion.div
             className="absolute inset-0 rounded-sm shadow-2xl"
-            style={{ backgroundColor: "var(--color-paper-dim)" }}
+            style={{
+              backgroundColor: "var(--color-paper-dim)",
+              border: "1px solid var(--color-gold-dim)",
+              boxShadow: "inset 0 0 0 4px var(--color-paper-dim), inset 0 0 0 5px rgba(184,147,90,0.55)",
+            }}
             animate={{ opacity: isRevealed ? 0 : 1 }}
             transition={{ duration: 0.9, delay: isRevealed ? 0.5 : 0 }}
           >
@@ -85,6 +90,8 @@ export function EnvelopeIntro() {
                 backgroundColor: "var(--color-ink)",
               }}
             />
+            <BotanicalSprig className="pointer-events-none absolute -left-3 -top-3 h-14 w-24 opacity-90" />
+            <BotanicalSprig className="pointer-events-none absolute -bottom-3 -right-3 h-14 w-24 rotate-180 opacity-90" />
           </motion.div>
 
           {/* flap — backface-visibility hides it once it's rotated past
@@ -145,14 +152,17 @@ export function EnvelopeIntro() {
       {/* letter — an independently-sized overlay (not scaled up from
           the small envelope box, which would overflow the viewport on
           mobile) that grows from a tiny point at the envelope's center
-          up to its own properly capped size. */}
+          up to its own properly capped size. Small branch accent, not
+          the full frame — at this size (~230px) the big commissioned
+          frame reads as too heavy/busy; a light sprig suits a card
+          this small. */}
       <motion.div
-        className="pointer-events-none absolute left-1/2 top-1/2 flex w-[82vw] max-w-xs flex-col items-center justify-center gap-3 rounded-sm px-6 py-10 text-center shadow-xl sm:max-w-sm"
+        className="pointer-events-none absolute left-1/2 top-1/2 flex w-[82vw] max-w-xs flex-col items-center justify-center gap-3 px-6 py-10 text-center shadow-xl sm:max-w-sm"
         style={{
           x: "-50%",
           y: "-50%",
           backgroundColor: "var(--color-paper)",
-          border: "1px solid var(--color-paper-shadow)",
+          border: "1px solid var(--color-gold-dim)",
         }}
         initial={{ scale: 0.12, opacity: 0 }}
         animate={
@@ -166,6 +176,7 @@ export function EnvelopeIntro() {
           ease: [0.22, 1, 0.36, 1],
         }}
       >
+        <BotanicalSprig className="pointer-events-none absolute -left-3 -top-3 h-14 w-24 opacity-90" />
         <p className="font-heading text-4xl leading-none text-wax sm:text-5xl">
           {wedding.groomName} &amp; {wedding.brideName}
         </p>

@@ -2,8 +2,8 @@ import { useEffect, useRef, useState } from "react";
 import { Volume2, VolumeX } from "lucide-react";
 
 const MUTE_KEY = "sealed-with-love-audio-muted";
-const TRACK_SRC = "/audio/enlivening.mp3";
-const TARGET_VOLUME = 0.5;
+const TRACK_SRC = "/audio/a-thousand-years.mp3";
+const TARGET_VOLUME = 0.45;
 const FADE_MS = 2400;
 
 function fadeVolume(audio, to, ms) {
@@ -18,12 +18,19 @@ function fadeVolume(audio, to, ms) {
 }
 
 /**
- * Background music — "Enlivening" by Pufino (freetouse.com), looped
- * softly under the whole letter. Starts on the visitor's first
- * scroll/tap/keypress (browsers block audible autoplay before a real
- * gesture) and can be muted anytime via the floating toggle;
- * preference persists in localStorage. Styled to sit comfortably over
- * both the dark envelope/seal scenes and the cream paper scenes.
+ * Background music — "A Thousand Years" (Christina Perri), looped
+ * softly under the whole letter. NOTE: unlike the earlier freetouse.com
+ * track, this is a commercially released, copyrighted recording — fine
+ * for private/personal use, but if this site is ever hosted somewhere
+ * guests will actually visit, using it without a license is a real
+ * infringement risk. Swap TRACK_SRC below for a licensed/royalty-free
+ * file before any public launch.
+ *
+ * Starts on the visitor's first scroll/tap/keypress (browsers block
+ * audible autoplay before a real gesture) and can be muted anytime via
+ * the floating toggle; preference persists in localStorage. Styled to
+ * sit comfortably over both the dark envelope/seal scenes and the
+ * cream paper scenes.
  */
 export function AmbientScore() {
   const audioRef = useRef(null);

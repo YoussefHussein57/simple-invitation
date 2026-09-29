@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useCountdown } from "../hooks/useCountdown";
 import { WEDDING_DATE } from "../data/wedding";
+import { BotanicalSprig } from "./BotanicalCorner";
 
 const UNITS = [
   { key: "days", label: "Days" },
@@ -32,6 +33,10 @@ export function Countdown() {
           <span className="font-tech text-[11px] uppercase tracking-[0.3em] text-ink-dim">
             Until We Say Yes
           </span>
+          <div className="mt-2 flex items-center gap-3">
+            <BotanicalSprig className="h-9 w-32 -scale-x-100 opacity-85" />
+            <BotanicalSprig className="h-9 w-32 rotate-180 opacity-85" />
+          </div>
         </motion.div>
 
         <div className="grid w-full grid-cols-2 gap-5 md:grid-cols-4 md:gap-6">

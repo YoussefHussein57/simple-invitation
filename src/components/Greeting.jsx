@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import { wedding } from "../data/wedding";
+import { BotanicalSprig } from "./BotanicalCorner";
 
 /**
  * Scene 2 — the opening line of the letter. A breath after the envelope:
@@ -10,6 +11,7 @@ export function Greeting() {
   return (
     <section className="relative flex min-h-screen flex-col items-center justify-center bg-paper px-6 py-24">
       <div className="mx-auto flex w-full max-w-md flex-col items-center gap-8 text-center md:max-w-lg lg:max-w-xl">
+        <BotanicalSprig className="h-12 w-48 -scale-x-100 opacity-90 md:h-14 md:w-56" />
         <FlourishRule />
 
         <motion.p
@@ -43,6 +45,7 @@ export function Greeting() {
         </motion.p>
 
         <FlourishRule flip />
+        <BotanicalSprig className="h-12 w-48 rotate-180 opacity-90 md:h-14 md:w-56" />
       </div>
     </section>
   );
