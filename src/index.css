@@ -1,0 +1,109 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: "Cormorant Garamond", "Times New Roman", serif;
+  --font-script: "Parisienne", "Brush Script MT", cursive;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+
+  --color-envelope: #14100c;
+  --color-envelope-2: #1d1712;
+  --color-paper: #f6efe0;
+  --color-paper-dim: #ece0c8;
+  --color-paper-shadow: #d9c9a6;
+  --color-ink: #2b241c;
+  --color-ink-dim: #6b6151;
+  --color-wax: #7a1f2b;
+  --color-wax-bright: #9c2c3a;
+  --color-gold: #b8935a;
+  --color-gold-bright: #d3ac74;
+  --color-gold-dim: #8a6d42;
+}
+
+:root {
+  color-scheme: light;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  background: #14100c;
+  color: var(--color-ink);
+  overflow-x: hidden;
+  max-width: 100vw;
+}
+
+body {
+  font-family: var(--font-serif);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#root {
+  overflow-x: hidden;
+  max-width: 100vw;
+  position: relative;
+}
+
+::selection {
+  background: var(--color-gold-dim);
+  color: var(--color-paper);
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-envelope);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-gold-dim);
+  border-radius: 3px;
+}
+
+button {
+  font-family: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.font-heading {
+  font-family: var(--font-script);
+}
+
+.font-tech {
+  font-family: var(--font-mono);
+}
+
+/* Subtle cream paper grain — soft, never busy */
+.bg-paper-grain {
+  background-image:
+    radial-gradient(circle at 20% 20%, rgba(182, 147, 90, 0.06), transparent 55%),
+    radial-gradient(circle at 80% 75%, rgba(122, 31, 43, 0.05), transparent 55%);
+}
+
+.deckled-edge {
+  clip-path: polygon(
+    0% 1%, 3% 0%, 8% 1.2%, 14% 0.2%, 20% 1%, 27% 0%, 34% 1.1%, 41% 0.3%,
+    48% 1%, 55% 0%, 62% 1.2%, 69% 0.2%, 76% 1%, 83% 0%, 90% 1.1%, 97% 0.3%,
+    100% 1%, 100% 99%, 97% 100%, 90% 98.8%, 83% 100%, 76% 99%, 69% 100%,
+    62% 98.9%, 55% 100%, 48% 99%, 41% 100%, 34% 98.8%, 27% 100%, 20% 99%,
+    14% 100%, 8% 98.9%, 3% 100%, 0% 99%
+  );
+}
+
+.text-glow-gold {
+  text-shadow: 0 0 18px rgba(184, 147, 90, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
