@@ -14,7 +14,7 @@ export function Location() {
   }
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center bg-paper-grain bg-paper px-6 py-24">
+    <section className="relative flex min-h-[55vh] flex-col items-center justify-center bg-paper-grain bg-paper px-6 py-16 sm:min-h-[60vh]">
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -35,10 +35,10 @@ export function Location() {
         <MapSketch />
 
         <div className="flex flex-col items-center gap-1.5">
-          <p className="font-serif text-2xl text-ink sm:text-3xl" dir="rtl">
+          <p className="font-arabic text-2xl text-ink sm:text-3xl" dir="rtl">
             {wedding.venue}
           </p>
-          <p className="font-tech text-[11px] uppercase tracking-[0.3em] text-ink-dim">
+          <p className="font-tech text-xs uppercase tracking-[0.3em] text-ink-dim">
             {wedding.venueTransliteration}
           </p>
         </div>
@@ -46,9 +46,9 @@ export function Location() {
         <button
           type="button"
           onClick={openMap}
-          className="flex min-h-11 items-center gap-2 border-2 border-dashed border-gold-dim px-6 py-3 font-tech text-xs uppercase tracking-[0.3em] text-wax transition-colors hover:bg-paper-dim active:bg-paper-dim"
+          className="flex min-h-12 items-center gap-2 border-2 border-dashed border-gold-dim px-7 py-3.5 font-tech text-sm uppercase tracking-[0.3em] text-wax transition-colors hover:bg-paper-dim active:bg-paper-dim"
         >
-          <MapPin className="h-4 w-4" aria-hidden="true" />
+          <MapPin className="h-5 w-5" aria-hidden="true" />
           Open Location
         </button>
       </motion.div>

@@ -5,11 +5,14 @@ import { BotanicalSprig } from "./BotanicalCorner";
 /**
  * Scene 2 — the opening line of the letter. A breath after the envelope:
  * a short salutation, the two names, and a single closing line. Nothing
- * more — generous whitespace is the point.
+ * more — generous whitespace is the point, but forcing this short a
+ * stack of content into a full min-h-screen (like every other, denser
+ * scene) leaves an ungainly amount of dead space above and below it;
+ * this scene alone uses a shorter minimum height instead.
  */
 export function Greeting() {
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center bg-paper px-6 py-24">
+    <section className="relative flex min-h-[65vh] flex-col items-center justify-center bg-paper px-6 py-16 sm:min-h-[70vh]">
       <div className="mx-auto flex w-full max-w-md flex-col items-center gap-8 text-center md:max-w-lg lg:max-w-xl">
         <BotanicalSprig className="h-12 w-48 -scale-x-100 opacity-90 md:h-14 md:w-56" />
         <FlourishRule />

@@ -4,6 +4,7 @@
   --font-serif: "Cormorant Garamond", "Times New Roman", serif;
   --font-script: "Parisienne", "Brush Script MT", cursive;
   --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", monospace;
+  --font-arabic: "Amiri", "Traditional Arabic", serif;
 
   --color-envelope: #14100c;
   --color-envelope-2: #1d1712;
@@ -76,6 +77,10 @@ button {
 
 .font-tech {
   font-family: var(--font-mono);
+}
+
+.font-arabic {
+  font-family: var(--font-arabic);
 }
 
 /* Subtle cream paper grain — soft, never busy */

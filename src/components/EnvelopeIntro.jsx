@@ -5,16 +5,32 @@ import { useReducedMotion } from "../hooks/useReducedMotion";
 import { wedding } from "../data/wedding";
 import { BotanicalSprig } from "./BotanicalCorner";
 
-const STAGE = { CLOSED: "closed", OPENING: "opening", REVEALED: "revealed" };
+const STAGE = {
+  CLOSED: "closed",
+  OPENING: "opening",
+  WALKING: "walking",
+  MEETING: "meeting",
+  REVEALED: "revealed",
+};
+
+// Real walk-cycle frames (cropped + background-removed from a
+// commissioned sprite sheet). 3 of the 5 available poses, evenly
+// spaced across the stride, held for longer each.
+const OMAR_FRAMES = [1, 3, 5].map((n) => `/photos/walk/omar-walk-${n}.png`);
+const AYA_FRAMES = [1, 3, 5].map((n) => `/photos/walk/aya-walk-${n}.png`);
+const COUPLE_TOGETHER = "/photos/walk/couple-together.png";
+
+const WALK_DURATION_MS = 2600;
+const MEET_HOLD_MS = 1300;
+const FRAME_INTERVAL_MS = 420;
 
 /**
  * Scene 1 — the whole concept in miniature. A sealed envelope sits in
  * the dark; the visitor taps it (or scrolls) to open it. The wax seal
- * cracks, the flap swings open (and — via backface-visibility — simply
- * stops rendering once it's rotated past perpendicular, which is what
- * lets the letter appear to pass "through" it without any real
- * clipping/masking trickery), and the letter rises out and settles as
- * the page's paper background. Everything after this section is the
+ * cracks, the flap swings open, then Omar walks in from the left and
+ * Aya from the right (a real walk-cycle, not just a slide), they meet
+ * center-stage holding hands, and once they've settled the "You're
+ * Invited" letter grows in. Everything after this section is the
  * letter's own pages.
  */
 export function EnvelopeIntro() {
@@ -22,12 +38,43 @@ export function EnvelopeIntro() {
   const [stage, setStage] = useState(
     reducedMotion ? STAGE.REVEALED : STAGE.CLOSED
   );
+  const [frameIndex, setFrameIndex] = useState(0);
 
   function open() {
     if (stage !== STAGE.CLOSED) return;
     setStage(STAGE.OPENING);
-    window.setTimeout(() => setStage(STAGE.REVEALED), 1050);
+    if (reducedMotion) {
+      window.setTimeout(() => setStage(STAGE.REVEALED), 300);
+      return;
+    }
+    window.setTimeout(() => setStage(STAGE.WALKING), 1050);
+    window.setTimeout(
+      () => setStage(STAGE.MEETING),
+      1050 + WALK_DURATION_MS
+    );
+    window.setTimeout(
+      () => setStage(STAGE.REVEALED),
+      1050 + WALK_DURATION_MS + MEET_HOLD_MS
+    );
   }
+
+  useEffect(() => {
+    if (stage !== STAGE.WALKING) return undefined;
+    setFrameIndex(0);
+    // Plays the stride once (0 -> last frame) and holds there, rather
+    // than wrapping back to frame 0 — looping mid-stride is what read
+    // as a "glitch" (a visible snap back to the starting pose).
+    const id = window.setInterval(() => {
+      setFrameIndex((f) => {
+        if (f >= OMAR_FRAMES.length - 1) {
+          window.clearInterval(id);
+          return f;
+        }
+        return f + 1;
+      });
+    }, FRAME_INTERVAL_MS);
+    return () => window.clearInterval(id);
+  }, [stage]);
 
   useEffect(() => {
     if (reducedMotion) return undefined;
@@ -49,17 +96,27 @@ export function EnvelopeIntro() {
 
   const isClosed = stage === STAGE.CLOSED;
   const isRevealed = stage === STAGE.REVEALED;
+  // The envelope graphic and the dark backdrop both fade away as soon
+  // as the couple starts walking in, not only once the letter finally
+  // appears — otherwise they'd be walking "through" a still-visible
+  // envelope for two extra seconds.
+  const isPastOpening = !isClosed && stage !== STAGE.OPENING;
+  const isWalking = stage === STAGE.WALKING;
+  const isMeeting = stage === STAGE.MEETING;
 
   return (
     <section
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden px-6 transition-colors duration-[1600ms] ease-in-out"
+      className="relative flex min-h-[85vh] flex-col items-center justify-center overflow-hidden px-6 transition-colors duration-[1600ms] ease-in-out sm:min-h-[90vh]"
       style={{
-        backgroundColor: isRevealed
+        backgroundColor: isPastOpening
           ? "var(--color-paper)"
           : "var(--color-envelope)",
       }}
     >
-      <div className="bg-paper-grain pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-[1600ms]" style={{ opacity: isRevealed ? 1 : 0 }} />
+      <div
+        className="bg-paper-grain pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-[1600ms]"
+        style={{ opacity: isPastOpening ? 1 : 0 }}
+      />
 
       <button
         type="button"
@@ -69,7 +126,7 @@ export function EnvelopeIntro() {
         className="relative flex flex-col items-center gap-6 disabled:cursor-default"
       >
         <div
-          className="relative w-[78vw] max-w-[320px]"
+          className="relative w-[82vw] max-w-[380px]"
           style={{ aspectRatio: "3 / 2", perspective: 1200 }}
         >
           {/* envelope body */}
@@ -80,8 +137,8 @@ export function EnvelopeIntro() {
               border: "1px solid var(--color-gold-dim)",
               boxShadow: "inset 0 0 0 4px var(--color-paper-dim), inset 0 0 0 5px rgba(184,147,90,0.55)",
             }}
-            animate={{ opacity: isRevealed ? 0 : 1 }}
-            transition={{ duration: 0.9, delay: isRevealed ? 0.5 : 0 }}
+            animate={{ opacity: isPastOpening ? 0 : 1 }}
+            transition={{ duration: 0.35 }}
           >
             <div
               className="absolute inset-x-0 bottom-0 h-1/2 opacity-[0.07]"
@@ -149,15 +206,84 @@ export function EnvelopeIntro() {
         )}
       </button>
 
+      {/* Omar walks in from the left, Aya from the right, cycling
+          through real walk-cycle frames — then once they arrive they
+          swap for a single "holding hands" pose. Centered on the same
+          point the letter later grows from, so the couple arriving
+          and the letter appearing read as one continuous moment
+          instead of a jump between two different screen positions. */}
+      {(isWalking || isMeeting) && (
+        <div className="pointer-events-none absolute inset-x-0 top-1/2 flex h-52 -translate-y-1/2 items-center justify-center sm:h-60">
+          {/* both layers stay mounted the whole time and simply
+              crossfade via opacity — no AnimatePresence key-swap, which
+              turned out to get stuck mid-animation when the walk->meet
+              transition landed on the same tick as other state updates.
+              The walking layer fades out quickly and the together pose
+              fades in with a short delay (rather than both crossfading
+              over the same window) so the two poses never sit at
+              similar opacity at once — that overlap was reading as a
+              double-exposure "ghost" glitch at the handoff. */}
+          <motion.div
+            className="absolute inset-0 flex items-end justify-center gap-1"
+            animate={{ opacity: isWalking ? 1 : 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <motion.img
+              src={OMAR_FRAMES[frameIndex]}
+              alt=""
+              aria-hidden="true"
+              initial={{ x: "-40vw" }}
+              animate={{ x: 0 }}
+              transition={{
+                duration: WALK_DURATION_MS / 1000,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
+              className="h-48 w-auto sm:h-56"
+              draggable={false}
+            />
+            <motion.img
+              src={AYA_FRAMES[frameIndex]}
+              alt=""
+              aria-hidden="true"
+              initial={{ x: "40vw" }}
+              animate={{ x: 0 }}
+              transition={{
+                duration: WALK_DURATION_MS / 1000,
+                ease: [0.25, 0.1, 0.25, 1],
+              }}
+              className="h-44 w-auto sm:h-52"
+              draggable={false}
+            />
+          </motion.div>
+
+          <motion.img
+            src={COUPLE_TOGETHER}
+            alt={`${wedding.groomName} and ${wedding.brideName}`}
+            initial={{ opacity: 0, scale: 0.94 }}
+            animate={{
+              opacity: isMeeting ? 1 : 0,
+              scale: isMeeting ? 1 : 0.94,
+            }}
+            transition={{
+              duration: 0.6,
+              delay: isMeeting ? 0.25 : 0,
+              ease: "easeOut",
+            }}
+            className="absolute h-52 w-auto sm:h-60"
+            draggable={false}
+          />
+        </div>
+      )}
+
       {/* letter — an independently-sized overlay (not scaled up from
           the small envelope box, which would overflow the viewport on
-          mobile) that grows from a tiny point at the envelope's center
-          up to its own properly capped size. Small branch accent, not
-          the full frame — at this size (~230px) the big commissioned
-          frame reads as too heavy/busy; a light sprig suits a card
-          this small. */}
+          mobile) that grows from a tiny point up to its own properly
+          capped size, once Omar and Aya have met. Small branch accent,
+          not the full frame — at this size (~230px) the big
+          commissioned frame reads as too heavy/busy; a light sprig
+          suits a card this small. */}
       <motion.div
-        className="pointer-events-none absolute left-1/2 top-1/2 flex w-[82vw] max-w-xs flex-col items-center justify-center gap-3 px-6 py-10 text-center shadow-xl sm:max-w-sm"
+        className="pointer-events-none absolute left-1/2 top-1/2 flex w-[86vw] max-w-sm flex-col items-center justify-center gap-3 px-8 py-12 text-center shadow-xl sm:max-w-md"
         style={{
           x: "-50%",
           y: "-50%",
@@ -172,7 +298,7 @@ export function EnvelopeIntro() {
         }
         transition={{
           duration: 1.1,
-          delay: isRevealed ? 0.35 : 0,
+          delay: isRevealed ? 0.2 : 0,
           ease: [0.22, 1, 0.36, 1],
         }}
       >
@@ -188,7 +314,7 @@ export function EnvelopeIntro() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: isRevealed ? 0.6 : 0 }}
-        transition={{ duration: 1, delay: 2 }}
+        transition={{ duration: 1, delay: 1.4 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 text-ink-dim"
       >
         <motion.div

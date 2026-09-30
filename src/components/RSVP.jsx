@@ -48,7 +48,7 @@ export function RSVP() {
   const canSubmit = name.trim().length > 0 && attending !== null;
 
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center bg-paper-grain bg-paper px-6 py-24">
+    <section className="relative flex min-h-[55vh] flex-col items-center justify-center bg-paper-grain bg-paper px-6 py-16 sm:min-h-[60vh]">
       <div className="mx-auto w-full max-w-md md:max-w-lg lg:max-w-xl">
         <motion.div
           initial={{ opacity: 0, y: 24 }}
@@ -113,7 +113,7 @@ function Form({
       </div>
 
       <label className="flex flex-col gap-2">
-        <span className="font-tech text-[11px] uppercase tracking-[0.25em] text-ink-dim">
+        <span className="font-tech text-xs uppercase tracking-[0.25em] text-ink-dim">
           Your Name
         </span>
         <input
@@ -126,7 +126,7 @@ function Form({
       </label>
 
       <label className="flex flex-col gap-2">
-        <span className="font-tech text-[11px] uppercase tracking-[0.25em] text-ink-dim">
+        <span className="font-tech text-xs uppercase tracking-[0.25em] text-ink-dim">
           Number Of Guests
         </span>
         <input
@@ -139,7 +139,7 @@ function Form({
       </label>
 
       <fieldset className="flex flex-col gap-3">
-        <legend className="mb-1 font-tech text-[11px] uppercase tracking-[0.25em] text-ink-dim">
+        <legend className="mb-1 font-tech text-xs uppercase tracking-[0.25em] text-ink-dim">
           Attending?
         </legend>
 
@@ -175,11 +175,11 @@ function RsvpChoice({ checked, onSelect, label }) {
       className="flex min-h-11 items-center gap-3 text-left"
     >
       <span
-        className={`flex h-5 w-5 flex-shrink-0 items-center justify-center border-2 transition-colors ${
+        className={`flex h-6 w-6 flex-shrink-0 items-center justify-center border-2 transition-colors ${
           checked ? "border-wax bg-wax" : "border-ink-dim/50 bg-transparent"
         }`}
       >
-        {checked && <Check className="h-3.5 w-3.5 text-paper" strokeWidth={3} />}
+        {checked && <Check className="h-4 w-4 text-paper" strokeWidth={3} />}
       </span>
       <span className="font-serif text-lg text-ink">{label}</span>
     </button>
@@ -200,13 +200,13 @@ function Confirmation({ response }) {
           initial={{ scale: 0.4, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.5, ease: "easeOut", delay: 0.15 }}
-          className="flex h-16 w-16 items-center justify-center rounded-full shadow-lg"
+          className="flex h-20 w-20 items-center justify-center rounded-full shadow-lg"
           style={{
             background:
               "radial-gradient(circle at 32% 28%, var(--color-wax-bright), var(--color-wax) 70%)",
           }}
         >
-          <span className="font-tech text-[9px] uppercase tracking-[0.15em] text-paper">
+          <span className="font-tech text-[10px] uppercase tracking-[0.15em] text-paper">
             Confirmed
           </span>
         </motion.div>

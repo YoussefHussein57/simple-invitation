@@ -12,7 +12,7 @@ import { BotanicalSprig } from "./BotanicalCorner";
  */
 export function Keepsake() {
   return (
-    <section className="relative flex min-h-screen flex-col items-center justify-center bg-paper px-6 py-24">
+    <section className="relative flex min-h-[55vh] flex-col items-center justify-center bg-paper px-6 py-16 sm:min-h-[60vh]">
       <div className="mx-auto flex w-full max-w-md flex-col items-center gap-8 md:max-w-lg lg:max-w-xl">
         <motion.img
           src={coupleImage}
@@ -21,7 +21,7 @@ export function Keepsake() {
           whileInView={{ opacity: 1, y: 0, scale: 1 }}
           viewport={{ once: true, margin: "-15% 0px -15% 0px" }}
           transition={{ duration: 0.85, ease: "easeOut" }}
-          className="w-[62%] max-w-[280px] object-contain"
+          className="w-[74%] max-w-[340px] object-contain"
           style={{ filter: "drop-shadow(0 20px 22px rgba(43,36,28,0.28))" }}
         />
 
@@ -32,10 +32,10 @@ export function Keepsake() {
           transition={{ duration: 0.7, delay: 0.3, ease: "easeOut" }}
           className="flex flex-col items-center gap-2 text-center"
         >
-          <span className="font-tech text-[10px] uppercase tracking-[0.3em] text-gold-dim">
+          <span className="font-tech text-xs uppercase tracking-[0.3em] text-gold-dim">
             {keepsakeLabel}
           </span>
-          <span className="font-heading text-3xl text-wax">
+          <span className="font-heading text-4xl text-wax">
             {wedding.groomName} × {wedding.brideName}
           </span>
           <div className="mt-1 flex items-center gap-3">
