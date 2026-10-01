@@ -44,6 +44,8 @@ export const wedding = {
   }),
   venue: "دار ضباط المدفعية",
   venueTransliteration: "Artillery Officers House",
+  hallName: "El Malka Hall",
+  hallNameArabic: "قاعة الملكة",
   mapsUrl: GOOGLE_MAPS_URL,
   monogram: "O & A",
 };

@@ -96,7 +96,7 @@ export function InvitationCard() {
             <HeartDivider />
 
             <p className="max-w-[94%] font-serif text-[5.2cqw] leading-[1.4] text-ink">
-              Join us for a special evening filled with love, good food, and
+              Join us for a special evening filled with love, laughter, and
               great company.
             </p>
 

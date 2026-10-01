@@ -41,6 +41,14 @@ export function Location() {
           <p className="font-tech text-xs uppercase tracking-[0.3em] text-ink-dim">
             {wedding.venueTransliteration}
           </p>
+          <div className="mt-1 flex flex-col items-center gap-1 border-t border-gold-dim/30 pt-3">
+            <p className="font-serif text-base italic text-wax sm:text-lg">
+              {wedding.hallName}
+            </p>
+            <p className="font-arabic text-sm text-ink-dim" dir="rtl">
+              {wedding.hallNameArabic}
+            </p>
+          </div>
         </div>
 
         <button
